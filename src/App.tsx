@@ -32,8 +32,7 @@ export default function App() {
         <div className="rounded-xl border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
           <h2 className="mb-1 text-lg font-semibold">Setup concluído (M0)</h2>
           <p className="mb-5 text-sm text-gray-600 dark:text-gray-400">
-            Vite + React + TypeScript + Tailwind + Vitest prontos. Próximo
-            marco: M1 — Domínio.
+            Vite + React + TypeScript + Tailwind + Vitest prontos. Próximo marco: M1 — Domínio.
           </p>
           <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
             Paleta de hábitos (SPEC §4.3)
