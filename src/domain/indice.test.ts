@@ -6,6 +6,7 @@ import {
   indiceAtual,
   projecaoHoje,
   recalcular,
+  statusHabito,
 } from './indice';
 import { estadoInicial, type EstadoApp, type Habito, type RegistroDia } from './types';
 
@@ -146,5 +147,40 @@ describe('projecaoHoje (SPEC §6.1)', () => {
     const e = estado({ habitos: [h], dias: { '2024-01-03': reg('2024-01-03', ['h1']) } });
     expect(projecaoHoje(e, '2024-01-03')).toBe('cumprido');
     expect(e.dias['2024-01-03']?.avaliacao).toBeUndefined();
+  });
+});
+
+describe('statusHabito (SPEC §5.1 / §6.1)', () => {
+  it('progresso e estado em_dia quando ainda há folga', () => {
+    const h = habito({ id: 'h1', metaSemanal: 3 });
+    const s = statusHabito(h, { '2024-01-03': reg('2024-01-03', ['h1']) }, '2024-01-03');
+    expect(s).toMatchObject({
+      meta: 3,
+      feitas: 1,
+      faltam: 2,
+      estado: 'em_dia',
+      concluido: true,
+    });
+  });
+
+  it('marca obrigatório quando faltam == dias restantes', () => {
+    // sábado, meta 2, nada feito: faltam 2 == restantes 2
+    const h = habito({ id: 'h1', metaSemanal: 2 });
+    const s = statusHabito(h, { '2024-01-06': reg('2024-01-06') }, '2024-01-06');
+    expect(s.estado).toBe('obrigatorio');
+    expect(s.concluido).toBe(false);
+  });
+
+  it('marca perdido_na_semana quando é impossível recuperar', () => {
+    const h = habito({ id: 'h1', metaSemanal: 2 });
+    const s = statusHabito(h, { '2024-01-07': reg('2024-01-07') }, '2024-01-07');
+    expect(s.estado).toBe('perdido_na_semana');
+  });
+
+  it('meta batida → faltam 0, em_dia', () => {
+    const h = habito({ id: 'h1', metaSemanal: 1 });
+    const s = statusHabito(h, { '2024-01-01': reg('2024-01-01', ['h1']) }, '2024-01-03');
+    expect(s.faltam).toBe(0);
+    expect(s.estado).toBe('em_dia');
   });
 });

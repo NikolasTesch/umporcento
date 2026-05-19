@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from '@/App';
 import { ThemeProvider } from '@/theme/ThemeProvider';
 import { HabitosProvider } from '@/state/HabitosContext';
+import { DiaProvider } from '@/state/DiaContext';
 import './index.css';
 
 const container = document.getElementById('root');
@@ -15,9 +16,11 @@ createRoot(container).render(
   <StrictMode>
     <ThemeProvider>
       <HabitosProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <DiaProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </DiaProvider>
       </HabitosProvider>
     </ThemeProvider>
   </StrictMode>,

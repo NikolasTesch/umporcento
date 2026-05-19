@@ -25,7 +25,16 @@ export function fatorAvaliacao(av: Avaliacao): number {
   return FATOR[av];
 }
 
-type EstadoHabito = 'em_dia' | 'obrigatorio' | 'perdido_na_semana';
+export type EstadoHabito = 'em_dia' | 'obrigatorio' | 'perdido_na_semana';
+
+export interface StatusHabito {
+  meta: number; // metaEfetiva na data (SPEC §4.2)
+  feitas: number; // conclusões na semana até a data (incl.)
+  restantes: number; // dias de hoje até domingo (incl.)
+  faltam: number; // max(0, meta − feitas)
+  estado: EstadoHabito;
+  concluido: boolean; // marcado especificamente nesse dia
+}
 
 /** Hábitos ativos (não arquivados) já existentes na data `chave`. */
 function habitosAtivosEm(habitos: Habito[], chave: string): Habito[] {
@@ -46,20 +55,25 @@ function feitasNaSemanaAte(
   return total;
 }
 
-function estadoDoHabito(
+/**
+ * Situação semanal de um hábito num dia — base de badges e progresso da tela
+ * Hoje (SPEC §5.1 / §6.1). Não congela nada.
+ */
+export function statusHabito(
   habito: Habito,
   dias: Record<string, RegistroDia>,
   data: string,
-): EstadoHabito {
+): StatusHabito {
   const d = parseData(data);
   const meta = metaEfetiva(habito, d);
   const feitas = feitasNaSemanaAte(habito, dias, data);
   const restantes = diasRestantesIncluindo(d);
   const faltam = Math.max(0, meta - feitas);
-  if (faltam === 0) return 'em_dia';
-  if (faltam > restantes) return 'perdido_na_semana';
-  if (faltam === restantes) return 'obrigatorio';
-  return 'em_dia';
+  let estado: EstadoHabito = 'em_dia';
+  if (faltam > 0 && faltam > restantes) estado = 'perdido_na_semana';
+  else if (faltam > 0 && faltam === restantes) estado = 'obrigatorio';
+  const concluido = dias[data]?.habitosConcluidos.includes(habito.id) ?? false;
+  return { meta, feitas, restantes, faltam, estado, concluido };
 }
 
 /**
@@ -81,7 +95,7 @@ export function avaliarDia(
   let obrigatorioNaoConcluido = false;
 
   for (const h of ativos) {
-    const estado = estadoDoHabito(h, dias, data);
+    const { estado } = statusHabito(h, dias, data);
     if (estado === 'perdido_na_semana') {
       temPerdidoNaSemana = true;
     } else if (estado === 'obrigatorio') {

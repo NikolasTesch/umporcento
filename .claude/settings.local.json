@@ -3,7 +3,8 @@
     "allow": [
       "Bash(npx tsc *)",
       "Bash(echo \"EXIT:$?\")",
-      "Bash(npx prettier *)"
+      "Bash(npx prettier *)",
+      "Bash(npx vite *)"
     ]
   }
 }
