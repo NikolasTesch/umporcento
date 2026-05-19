@@ -140,9 +140,7 @@ export function PreferenciasProvider({
     ],
   );
 
-  return (
-    <PreferenciasContext.Provider value={value}>{children}</PreferenciasContext.Provider>
-  );
+  return <PreferenciasContext.Provider value={value}>{children}</PreferenciasContext.Provider>;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components

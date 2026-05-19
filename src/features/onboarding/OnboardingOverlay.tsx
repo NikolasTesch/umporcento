@@ -22,8 +22,8 @@ const PASSOS: Passo[] = [
     titulo: 'Melhore 1% por dia',
     corpo: (
       <>
-        Pequenas melhorias diárias se acumulam. Não é sobre grandes saltos — é
-        sobre <strong>consistência</strong> que compõe ao longo do tempo.
+        Pequenas melhorias diárias se acumulam. Não é sobre grandes saltos — é sobre{' '}
+        <strong>consistência</strong> que compõe ao longo do tempo.
       </>
     ),
   },
@@ -31,9 +31,9 @@ const PASSOS: Passo[] = [
     titulo: 'Como o índice funciona',
     corpo: (
       <>
-        Cada dia <strong>cumprido</strong> multiplica seu índice por{' '}
-        <strong>×1,01</strong>; um dia <strong>perdido</strong>, por{' '}
-        <strong>×0,99</strong>; um dia <strong>neutro</strong>, por ×1,00.
+        Cada dia <strong>cumprido</strong> multiplica seu índice por <strong>×1,01</strong>; um dia{' '}
+        <strong>perdido</strong>, por <strong>×0,99</strong>; um dia <strong>neutro</strong>, por
+        ×1,00.
         <br />
         <br />
         30 dias cumpridos → <strong>{FATOR_EXEMPLO}x</strong>.
@@ -45,19 +45,16 @@ const PASSOS: Passo[] = [
     corpo: (
       <>
         <strong>Cumprido:</strong> todos os hábitos obrigatórios do dia feitos.{' '}
-        <strong>Perdido:</strong> faltou um obrigatório. <strong>Neutro:</strong>{' '}
-        nada marcado e nada cobrado. Dias cumpridos seguidos formam seu{' '}
-        <strong>streak</strong> — neutro ou perdido zeram a sequência.
+        <strong>Perdido:</strong> faltou um obrigatório. <strong>Neutro:</strong> nada marcado e
+        nada cobrado. Dias cumpridos seguidos formam seu <strong>streak</strong> — neutro ou perdido
+        zeram a sequência.
       </>
     ),
   },
   {
     titulo: 'Comece agora',
     corpo: (
-      <>
-        Crie seu primeiro hábito. Comece pequeno: algo que você consiga manter
-        todos os dias.
-      </>
+      <>Crie seu primeiro hábito. Comece pequeno: algo que você consiga manter todos os dias.</>
     ),
   },
 ];
@@ -145,7 +142,9 @@ export function OnboardingOverlay() {
                 key={i}
                 aria-hidden="true"
                 className={`h-1.5 rounded-full transition-all ${
-                  i === passo ? 'w-6 bg-gray-900 dark:bg-gray-100' : 'w-1.5 bg-gray-300 dark:bg-gray-700'
+                  i === passo
+                    ? 'w-6 bg-gray-900 dark:bg-gray-100'
+                    : 'w-1.5 bg-gray-300 dark:bg-gray-700'
                 }`}
               />
             ))}
