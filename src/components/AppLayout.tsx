@@ -1,10 +1,11 @@
 /**
  * Casca de navegação — barra lateral no desktop, barra inferior no mobile
- * (SPEC §6). Inclui o alternador de tema.
+ * (SPEC §6). O acesso a Configurações (incl. tema) é um modal via ícone.
  */
-import { BarChart3, BookText, CalendarCheck, ListChecks, Moon, Sun } from 'lucide-react';
+import { useState } from 'react';
+import { BarChart3, BookText, CalendarCheck, ListChecks, Settings } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { useTema } from '@/theme/ThemeProvider';
+import { ConfiguracoesModal } from '@/features/configuracoes/ConfiguracoesModal';
 
 const ITENS = [
   { para: '/', rotulo: 'Hoje', Icone: CalendarCheck },
@@ -14,7 +15,7 @@ const ITENS = [
 ] as const;
 
 export function AppLayout() {
-  const { tema, alternarTema } = useTema();
+  const [configAberto, setConfigAberto] = useState(false);
 
   return (
     <div className="flex min-h-full flex-col sm:flex-row">
@@ -45,22 +46,20 @@ export function AppLayout() {
         ))}
         <button
           type="button"
-          onClick={alternarTema}
-          aria-label={tema === 'claro' ? 'Ativar tema escuro' : 'Ativar tema claro'}
+          onClick={() => setConfigAberto(true)}
+          aria-label="Abrir configurações"
           className="flex flex-1 flex-col items-center gap-1 py-3 text-xs font-medium text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 sm:mt-auto sm:flex-none sm:flex-row sm:gap-3 sm:px-6 sm:py-2.5 sm:text-sm"
         >
-          {tema === 'claro' ? (
-            <Moon className="h-5 w-5" aria-hidden="true" />
-          ) : (
-            <Sun className="h-5 w-5" aria-hidden="true" />
-          )}
-          Tema
+          <Settings className="h-5 w-5" aria-hidden="true" />
+          Config
         </button>
       </nav>
 
       <main className="mx-auto w-full max-w-2xl flex-1 px-5 py-8 pb-24 sm:pb-8">
         <Outlet />
       </main>
+
+      <ConfiguracoesModal aberto={configAberto} onFechar={() => setConfigAberto(false)} />
     </div>
   );
 }
