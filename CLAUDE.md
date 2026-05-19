@@ -19,6 +19,41 @@ composto). 100% offline, `localStorage`, PT-BR, tema claro/escuro.
 Spec completa: [SPEC.md](SPEC.md) — consultar só quando precisar de detalhe
 fino; o resumo abaixo cobre o dia a dia.
 
+## Ritual de início de sessão
+
+1. Ler este `CLAUDE.md` inteiro.
+2. Ler `.claude/steering/` conforme a task (product · tech · structure ·
+   data_models · business_rules).
+3. Ler a regra da camada tocada em `.claude/rules/`.
+4. Para tasks maiores, ativar o agente em `.claude/agents/` correspondente.
+5. Não carregar nem aplicar o `CLAUDE.md` do diretório pai (projeto Cadife).
+
+## Estrutura `.claude/`
+
+```
+.claude/
+  settings.json          # allowlist de comandos (menos prompts)
+  steering/              # contexto modular do projeto
+    product.md tech.md structure.md data_models.md business_rules.md
+  rules/                 # regras de comportamento por camada
+    domain_logic.md state_context.md react_frontend.md testing.md
+  agents/                # personas de sub-agente
+    domain_dev.md frontend_dev.md test_dev.md auditor.md
+  skills/                # comandos
+    _template_command.md start_session.md new_feature.md fix-bug/SKILL.md
+```
+
+## Referência rápida
+
+| Necessidade | Arquivo |
+|---|---|
+| Visão, princípios, escopo, identidade | `.claude/steering/product.md` |
+| Stack, comandos, padrões de código | `.claude/steering/tech.md` |
+| Topologia de pastas e nomenclatura | `.claude/steering/structure.md` |
+| Entidades, schemas, contrato de storage | `.claude/steering/data_models.md` |
+| Regras do Índice 1%, streaks, ciclo | `.claude/steering/business_rules.md` |
+| Detalhe fino e fonte de verdade | `SPEC.md` |
+
 ## Stack
 
 Vite · React 18 (function components + hooks) · TypeScript · Tailwind CSS ·
